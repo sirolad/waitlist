@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
       email: parsed.data.email,
       name: parsed.data.name,
       role: parsed.data.role,
+      note: parsed.data.note,
       source: parsed.data.source,
       metadata: {
         userAgent: request.headers.get('user-agent'),

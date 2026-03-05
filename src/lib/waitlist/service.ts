@@ -5,6 +5,7 @@ type WaitlistInsert = {
   name?: string;
   role?: string;
   source?: string;
+  note?: string;
   metadata?: Record<string, string | null>;
 };
 
@@ -24,6 +25,7 @@ export async function insertWaitlistEntry(input: WaitlistInsert) {
     email: input.email,
     name: input.name ?? null,
     role: input.role ?? null,
+    note: input.note ?? null,
     source: input.source ?? 'landing',
     metadata: input.metadata ?? null,
   });

@@ -11,6 +11,7 @@ export function WaitlistForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
+  const [note, setNote] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<WaitlistResult | null>(null);
 
@@ -27,6 +28,7 @@ export function WaitlistForm() {
           name,
           email,
           role,
+          note,
           source: 'landing',
           honeypot: '',
         }),
@@ -37,6 +39,7 @@ export function WaitlistForm() {
         setName('');
         setEmail('');
         setRole('');
+        setNote('');
       }
     } catch {
       setResult({
@@ -99,6 +102,24 @@ export function WaitlistForm() {
           <option value='juror' className='bg-input-bg text-foreground'>Juror</option>
           <option value='partner' className='bg-input-bg text-foreground'>Partner</option>
         </select>
+      </div>
+      <div>
+        <label htmlFor='note' className='mb-1 block text-sm font-medium'>
+          Anything you&apos;d like us to know?{' '}
+          <span className='text-muted-foreground'>(optional)</span>
+        </label>
+        <textarea
+          id='note'
+          value={note}
+          onChange={event => setNote(event.target.value)}
+          rows={3}
+          maxLength={500}
+          placeholder='Tell us your language, what brought you here, or what you hope to build…'
+          className='w-full resize-none rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
+        />
+        <p className='mt-1 text-right text-xs text-muted-foreground'>
+          {note.length}/500
+        </p>
       </div>
       <button
         type='submit'

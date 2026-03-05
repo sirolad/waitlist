@@ -5,6 +5,7 @@ export const waitlistSchema = z.object({
   email: z.email().transform(email => email.trim().toLowerCase()),
   role: z.string().trim().max(80).optional(),
   source: z.string().trim().max(80).optional(),
+  note: z.string().trim().max(500).optional(),
   honeypot: z.string().optional(),
 });
 
