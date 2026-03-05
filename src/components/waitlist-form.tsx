@@ -66,7 +66,7 @@ export function WaitlistForm() {
           id='name'
           value={name}
           onChange={event => setName(event.target.value)}
-          className='w-full rounded-xl border border-border bg-transparent px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary'
+          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
           placeholder='Adaeze Okafor'
         />
       </div>
@@ -80,7 +80,7 @@ export function WaitlistForm() {
           required
           value={email}
           onChange={event => setEmail(event.target.value)}
-          className='w-full rounded-xl border border-border bg-transparent px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary'
+          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
           placeholder='you@example.com'
         />
       </div>
@@ -92,19 +92,18 @@ export function WaitlistForm() {
           id='role'
           value={role}
           onChange={event => setRole(event.target.value)}
-          className='w-full rounded-xl border border-border bg-transparent px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary'
+          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary'
         >
-          <option value=''>Select role (optional)</option>
-          <option value='learner'>Language learner</option>
-          <option value='contributor'>Community contributor</option>
-          <option value='educator'>Educator</option>
-          <option value='partner'>Partner organization</option>
+          <option value='' className='bg-input-bg text-foreground'>Select role (optional)</option>
+          <option value='contributor' className='bg-input-bg text-foreground'>Contributor</option>
+          <option value='juror' className='bg-input-bg text-foreground'>Juror</option>
+          <option value='partner' className='bg-input-bg text-foreground'>Partner</option>
         </select>
       </div>
       <button
         type='submit'
         disabled={loading}
-        className='w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60'
+        className='w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60'
       >
         {loading ? 'Submitting...' : 'Join waitlist'}
       </button>
