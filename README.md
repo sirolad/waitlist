@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Awalingo Landing
+A standalone landing + waitlist project for Awalingo.
 
-## Getting Started
+## Run locally
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Install dependencies:
+   `npm install`
+2. Configure environment:
+   copy `.env.example` to `.env.local` and fill values.
+3. Run dev server:
+   `npm run dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
+Create `.env.local`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`NEXT_PUBLIC_SUPABASE_URL=...`
+`SUPABASE_SERVICE_ROLE_KEY=...`
 
-## Learn More
+## Waitlist table
+Create the table in Supabase:
 
-To learn more about Next.js, take a look at the following resources:
+`create table if not exists public.waitlist_entries (
+  id bigint generated always as identity primary key,
+  email text not null unique,
+  name text,
+  role text,
+  source text default 'landing',
+  metadata jsonb,
+  created_at timestamptz not null default now()
+);`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy on Vercel (Hobby)
+- Connect this repo/project to Vercel.
+- Add the same environment variables in Project Settings.
+- Add your custom domain and follow Vercel DNS instructions:
+  - Apex domain uses A record to Vercel target.
+  - Subdomain uses CNAME to Vercel target.
+- Verify waitlist submission after deploy.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Quality checks
+- `npm run lint`
+- `npm run build`
