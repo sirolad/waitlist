@@ -74,7 +74,8 @@ export async function POST(request: NextRequest) {
       { ok: true, message: 'Success! You are on the waitlist.' },
       { status: 201 }
     );
-  } catch {
+  } catch (err) {
+    console.error('[waitlist] insertion error:', err);
     return NextResponse.json(
       { ok: false, message: 'Submission failed. Please try again.' },
       { status: 500 }
