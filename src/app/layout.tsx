@@ -68,10 +68,37 @@ const metropolis = localFont({
   display: 'swap',
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://awalingo.org';
+
 export const metadata: Metadata = {
   title: 'Awalingo — Join the Waitlist',
   description:
-    'Awalingo helps communities preserve and grow low-resource languages. Join the waitlist.',
+    'Awalingo helps communities preserve and grow low-resource languages through collaborative dictionaries, voting, and peer-reviewed curation. Join the early access waitlist.',
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    title: 'Awalingo — Keep mother tongues alive, one word at a time.',
+    description:
+      'Awalingo helps communities preserve and grow low-resource languages. Join the waitlist for early access.',
+    url: SITE_URL,
+    siteName: 'Awalingo',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Awalingo — Keep mother tongues alive, one word at a time.',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Awalingo — Keep mother tongues alive, one word at a time.',
+    description:
+      'Awalingo helps communities preserve and grow low-resource languages. Join the waitlist for early access.',
+    images: ['/og-image.png'],
+  },
 };
 
 export default function RootLayout({
