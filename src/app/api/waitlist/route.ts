@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { waitlistSchema } from '@/lib/waitlist/schema';
 import { insertWaitlistEntry } from '@/lib/waitlist/service';
+import { Resend } from 'resend';
+import WaitlistWelcomeEmail from '@/components/emails/welcome-email';
+
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const rateLimitStore = new Map<string, { count: number; windowStart: number }>();
 const WINDOW_MS = 60_000;
@@ -72,6 +76,16 @@ export async function POST(request: NextRequest) {
         { ok: true, message: 'You are already on the waitlist.' },
         { status: 200 }
       );
+    }
+
+    if (resend) {
+      // Fire and forget the email so we don't slow down the response
+      resend.emails.send({
+        from: 'Awalingo <awalingoteam@gmail.com>', // MUST update to a verified domain on Resend
+        to: parsed.data.email!,
+        subject: 'Welcome to the Awalingo Waitlist 🎉',
+        react: WaitlistWelcomeEmail({ name: parsed.data.name || 'there' }),
+      }).catch(console.error);
     }
 
     return NextResponse.json(

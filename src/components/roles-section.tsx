@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 const ROLES = [
   {
     icon: <PenLine className='h-6 w-6' />,
-    role: 'Rescuers',
+    role: 'Contributor',
     tagline: 'You are the author.',
     description:
       'Add words, craft definitions, and submit translations for your language community. Every entry you create becomes a permanent part of the living record — proof that your mother tongue is alive and growing.',
