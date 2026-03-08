@@ -68,7 +68,7 @@ const metropolis = localFont({
   display: 'swap',
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://awalingo.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://awalingo.org';
 
 export const metadata: Metadata = {
   title: 'Awalingo — Join the Waitlist',
