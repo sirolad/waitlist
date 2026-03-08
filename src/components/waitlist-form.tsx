@@ -8,6 +8,14 @@ type WaitlistResult = {
   message: string;
 };
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
 // Converts an ISO2 country code to its emoji flag (e.g. "ng" → 🇳🇬)
 function isoToFlag(iso2: string) {
   return [...iso2.toUpperCase()].map(c => String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
@@ -87,7 +95,7 @@ export function WaitlistForm() {
         body: JSON.stringify({
           name,
           email,
-          role,
+          role: role === 'none' ? '' : role,
           note,
           phone: phone.trim() || undefined,
           countryCode: phone.trim() ? countryCode : undefined,
@@ -169,26 +177,33 @@ export function WaitlistForm() {
           Phone number{' '}
           <span className='text-muted-foreground'>(optional)</span>
         </label>
-        <div className='flex gap-2'>
-          <select
-            id='country-code'
-            value={countryCode}
-            onChange={event => setCountryCode(event.target.value)}
-            aria-label='Country dial code'
-            className='shrink-0 w-36 rounded-xl border border-border bg-input-bg text-foreground px-3 py-2.5 text-sm outline-none ring-0 focus:border-primary'
-          >
-            {COUNTRY_OPTIONS.map(c => (
-              <option key={c.iso2} value={c.value} className='bg-input-bg text-foreground'>
-                {c.label}
-              </option>
-            ))}
-          </select>
+        <div className='flex items-stretch gap-2 h-11'>
+          <div className='w-36 shrink-0 h-full'>
+            <Select value={countryCode} onValueChange={(val) => setCountryCode(val ?? DEFAULT.value)}>
+              <SelectTrigger className='w-full rounded-xl border border-border bg-input-bg !h-full px-3 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
+                <SelectValue placeholder='Code' />
+              </SelectTrigger>
+              <SelectContent 
+                side='bottom' 
+                align='start' 
+                sideOffset={4}
+                alignItemWithTrigger={false}
+                className='max-h-64 z-50'
+              >
+                {COUNTRY_OPTIONS.map(c => (
+                  <SelectItem key={c.iso2} value={c.value}>
+                    {c.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <input
             id='phone'
             type='tel'
             value={phone}
             onChange={event => setPhone(event.target.value)}
-            className={inputClass}
+            className='h-full w-full rounded-xl border border-border bg-input-bg text-foreground px-4 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
             placeholder='801 234 5678'
             maxLength={15}
           />
@@ -199,17 +214,23 @@ export function WaitlistForm() {
         <label htmlFor='role' className='mb-1 block text-sm font-medium'>
           I am a...
         </label>
-        <select
-          id='role'
-          value={role}
-          onChange={event => setRole(event.target.value)}
-          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary'
-        >
-          <option value='' className='bg-input-bg text-foreground'>Select role (optional)</option>
-          <option value='contributor' className='bg-input-bg text-foreground'>Contributor</option>
-          <option value='juror' className='bg-input-bg text-foreground'>Juror</option>
-          <option value='partner' className='bg-input-bg text-foreground'>Partner</option>
-        </select>
+        <Select value={role} onValueChange={(val) => setRole(val ?? '')}>
+          <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
+            <SelectValue placeholder='Select role (optional)' />
+          </SelectTrigger>
+          <SelectContent 
+            side='bottom' 
+            align='start' 
+            sideOffset={4}
+            alignItemWithTrigger={false}
+            className='z-50'
+          >
+            <SelectItem value='none'>Select role (optional)</SelectItem>
+            <SelectItem value='contributor'>Contributor</SelectItem>
+            <SelectItem value='juror'>Juror</SelectItem>
+            <SelectItem value='partner'>Partner</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div>
         <label htmlFor='note' className='mb-1 block text-sm font-medium'>
