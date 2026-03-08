@@ -78,7 +78,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Awalingo — Keep mother tongues alive, one word at a time.',
     description:
-      'Awalingo helps communities preserve and grow low-resource languages. Join the waitlist for early access.',
+      'Awalingo helps communities preserve and grow low-resource languages through collaborative dictionaries and peer-reviewed curation. Join the waitlist today.',
     url: SITE_URL,
     siteName: 'Awalingo',
     images: [
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Awalingo — Keep mother tongues alive, one word at a time.',
     description:
-      'Awalingo helps communities preserve and grow low-resource languages. Join the waitlist for early access.',
+      'Awalingo helps communities preserve and grow low-resource languages through collaborative dictionaries and peer-reviewed curation. Join the waitlist now.',
     images: ['/og-image.png'],
   },
 };
