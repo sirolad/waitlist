@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         from: 'Awalingo <awalingoteam@gmail.com>', // MUST update to a verified domain on Resend
         to: parsed.data.email!,
         subject: 'Welcome to the Awalingo Waitlist 🎉',
-        react: WaitlistWelcomeEmail({ name: parsed.data.name }),
+        react: WaitlistWelcomeEmail({ name: parsed.data.name || 'there' }),
       }).catch(console.error);
     }
 
