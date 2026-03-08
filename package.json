@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
+    "@react-email/components": "^1.0.8",
+    "@react-email/render": "^2.0.4",
     "@remotion/player": "^4.0.433",
     "@supabase/supabase-js": "^2.57.4",
     "class-variance-authority": "^0.7.1",
@@ -24,6 +26,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "^4.0.433",
+    "resend": "^6.9.3",
     "shadcn": "^4.0.2",
     "tailwind-merge": "^3.5.0",
     "tw-animate-css": "^1.4.0",

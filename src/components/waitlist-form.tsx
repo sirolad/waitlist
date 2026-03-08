@@ -153,7 +153,7 @@ export function WaitlistForm() {
           value={name}
           onChange={event => setName(event.target.value)}
           className={inputClass}
-          placeholder='Adaeze Okafor'
+          placeholder='Ciroma Chukwuma Adekunle'
         />
       </div>
       <div>
