@@ -175,7 +175,7 @@ export function WaitlistForm() {
       <div>
         <label htmlFor='phone' className='mb-1 block text-sm font-medium'>
           Phone number{' '}
-          <span className='text-muted-foreground'>(optional)</span>
+          <span className='text-muted-foreground'>(WhatsApp Preferred)</span>
         </label>
         <div className='flex items-stretch gap-2 h-11'>
           <div className='w-36 shrink-0 h-full'>
