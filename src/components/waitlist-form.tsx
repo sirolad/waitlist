@@ -1,19 +1,87 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { allCountries } from 'country-telephone-data';
 
 type WaitlistResult = {
   ok: boolean;
   message: string;
 };
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+// Converts an ISO2 country code to its emoji flag (e.g. "ng" → 🇳🇬)
+function isoToFlag(iso2: string) {
+  return [...iso2.toUpperCase()].map(c => String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
+}
+
+// Build a deduplicated list of { label, value } for the dropdown.
+const COUNTRY_OPTIONS = allCountries
+  .filter(c => c.dialCode)
+  .map(c => ({
+    value: `+${c.dialCode}`,
+    label: `${isoToFlag(c.iso2)} +${c.dialCode} ${c.name.replace(/\s*\(.*?\)\s*/g, '').trim()}`,
+    iso2: c.iso2,
+  }));
+
+const DEFAULT = COUNTRY_OPTIONS.find(c => c.iso2 === 'ng') ?? COUNTRY_OPTIONS[0];
+
+// Progress bar config — adjust the goal to match your launch target
+const WAITLIST_GOAL = 500;
+
+function WaitlistProgress({ count, goal }: { count: number; goal: number }) {
+  const pct = Math.min((count / goal) * 100, 100);
+
+  return (
+    <div className='mb-6 rounded-2xl border border-border bg-muted/30 px-5 py-4'>
+      <div className='flex items-center justify-between mb-2'>
+        <p className='text-sm font-semibold'>
+          <span className='text-primary'>{count.toLocaleString()}</span>
+          <span className='text-muted-foreground'> / {goal.toLocaleString()} early spots filled</span>
+        </p>
+        <span className='text-xs font-semibold text-primary'>{Math.round(pct)}%</span>
+      </div>
+      {/* Track */}
+      <div className='h-2 w-full overflow-hidden rounded-full bg-border'>
+        {/* Fill */}
+        <div
+          className='h-full rounded-full bg-primary transition-all duration-700 ease-out'
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <p className='mt-2 text-xs text-muted-foreground'>
+        {goal - count > 0
+          ? `${(goal - count).toLocaleString()} spots remaining — secure yours today.`
+          : 'All early spots are filled! Join the general waitlist.'}
+      </p>
+    </div>
+  );
+}
+
 export function WaitlistForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [note, setNote] = useState('');
+  const [countryCode, setCountryCode] = useState(DEFAULT.value);
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<WaitlistResult | null>(null);
+  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
+
+  // Fetch count on mount
+  useEffect(() => {
+    fetch('/api/waitlist/count')
+      .then(r => r.json())
+      .then((data: { count: number }) => setWaitlistCount(data.count))
+      .catch(() => setWaitlistCount(null));
+  }, []);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,8 +95,10 @@ export function WaitlistForm() {
         body: JSON.stringify({
           name,
           email,
-          role,
+          role: role === 'none' ? '' : role,
           note,
+          phone: phone.trim() || undefined,
+          countryCode: phone.trim() ? countryCode : undefined,
           source: 'landing',
           honeypot: '',
         }),
@@ -40,6 +110,10 @@ export function WaitlistForm() {
         setEmail('');
         setRole('');
         setNote('');
+        setPhone('');
+        setCountryCode(DEFAULT.value);
+        // Bump the count optimistically after a successful signup
+        setWaitlistCount(prev => (prev !== null && payload.ok ? prev + 1 : prev));
       }
     } catch {
       setResult({
@@ -51,6 +125,9 @@ export function WaitlistForm() {
     }
   }
 
+  const inputClass =
+    'w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary';
+
   return (
     <form onSubmit={onSubmit} className='space-y-4'>
       <input
@@ -61,15 +138,21 @@ export function WaitlistForm() {
         className='hidden'
         aria-hidden='true'
       />
+
+      {/* Progress bar — shown once count is loaded */}
+      {waitlistCount !== null && (
+        <WaitlistProgress count={waitlistCount} goal={WAITLIST_GOAL} />
+      )}
+
       <div>
         <label htmlFor='name' className='mb-1 block text-sm font-medium'>
-          Name <span className='text-muted-foreground'>(optional)</span>
+          Name
         </label>
         <input
           id='name'
           value={name}
           onChange={event => setName(event.target.value)}
-          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
+          className={inputClass}
           placeholder='Adaeze Okafor'
         />
       </div>
@@ -83,25 +166,71 @@ export function WaitlistForm() {
           required
           value={email}
           onChange={event => setEmail(event.target.value)}
-          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
+          className={inputClass}
           placeholder='you@example.com'
         />
       </div>
+
+      {/* Phone number with country code */}
+      <div>
+        <label htmlFor='phone' className='mb-1 block text-sm font-medium'>
+          Phone number{' '}
+          <span className='text-muted-foreground'>(optional)</span>
+        </label>
+        <div className='flex items-stretch gap-2 h-11'>
+          <div className='w-36 shrink-0 h-full'>
+            <Select value={countryCode} onValueChange={(val) => setCountryCode(val ?? DEFAULT.value)}>
+              <SelectTrigger className='w-full rounded-xl border border-border bg-input-bg !h-full px-3 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
+                <SelectValue placeholder='Code' />
+              </SelectTrigger>
+              <SelectContent 
+                side='bottom' 
+                align='start' 
+                sideOffset={4}
+                alignItemWithTrigger={false}
+                className='max-h-64 z-50'
+              >
+                {COUNTRY_OPTIONS.map(c => (
+                  <SelectItem key={c.iso2} value={c.value}>
+                    {c.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <input
+            id='phone'
+            type='tel'
+            value={phone}
+            onChange={event => setPhone(event.target.value)}
+            className='h-full w-full rounded-xl border border-border bg-input-bg text-foreground px-4 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
+            placeholder='801 234 5678'
+            maxLength={15}
+          />
+        </div>
+      </div>
+
       <div>
         <label htmlFor='role' className='mb-1 block text-sm font-medium'>
           I am a...
         </label>
-        <select
-          id='role'
-          value={role}
-          onChange={event => setRole(event.target.value)}
-          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary'
-        >
-          <option value='' className='bg-input-bg text-foreground'>Select role (optional)</option>
-          <option value='contributor' className='bg-input-bg text-foreground'>Contributor</option>
-          <option value='juror' className='bg-input-bg text-foreground'>Juror</option>
-          <option value='partner' className='bg-input-bg text-foreground'>Partner</option>
-        </select>
+        <Select value={role} onValueChange={(val) => setRole(val ?? '')}>
+          <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
+            <SelectValue placeholder='Select role (optional)' />
+          </SelectTrigger>
+          <SelectContent 
+            side='bottom' 
+            align='start' 
+            sideOffset={4}
+            alignItemWithTrigger={false}
+            className='z-50'
+          >
+            <SelectItem value='none'>Select role (optional)</SelectItem>
+            <SelectItem value='contributor'>Contributor</SelectItem>
+            <SelectItem value='juror'>Juror</SelectItem>
+            <SelectItem value='partner'>Partner</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div>
         <label htmlFor='note' className='mb-1 block text-sm font-medium'>

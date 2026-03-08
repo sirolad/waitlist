@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 const ROLES = [
   {
     icon: <PenLine className='h-6 w-6' />,
-    role: 'Contributor',
+    role: 'Rescuers',
     tagline: 'You are the author.',
     description:
       'Add words, craft definitions, and submit translations for your language community. Every entry you create becomes a permanent part of the living record — proof that your mother tongue is alive and growing.',
@@ -32,7 +32,7 @@ const ROLES = [
     role: 'Partner',
     tagline: 'Build the future together.',
     description:
-      'Institutions, universities, and language organisations who want to co-author the infrastructure of preservation. Partners get early API access, co-branding, and a seat at the table when we define the roadmap.',
+      'Running an AI lab, technology research or consumer outreach for your brand? Partnering with us helps you connect to communities through languages they have already approved, by offering high-fidelity, verified and unrivaled datasets.',
     cta: 'Grow the ecosystem at scale.',
     accent: 'from-emerald-500/20 to-emerald-500/5',
     border: 'border-emerald-500/30',

@@ -60,6 +60,10 @@ export async function POST(request: NextRequest) {
       metadata: {
         userAgent: request.headers.get('user-agent'),
         referer: request.headers.get('referer'),
+        phone:
+          parsed.data.phone
+            ? `${parsed.data.countryCode ?? ''}${parsed.data.phone}`.trim()
+            : null,
       },
     });
 
