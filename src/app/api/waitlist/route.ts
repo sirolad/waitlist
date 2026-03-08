@@ -60,14 +60,12 @@ export async function POST(request: NextRequest) {
       name: parsed.data.name,
       role: parsed.data.role,
       note: parsed.data.note,
+      phone: parsed.data.phone,
+      countryCode: parsed.data.countryCode,
       source: parsed.data.source,
       metadata: {
         userAgent: request.headers.get('user-agent'),
         referer: request.headers.get('referer'),
-        phone:
-          parsed.data.phone
-            ? `${parsed.data.countryCode ?? ''}${parsed.data.phone}`.trim()
-            : null,
       },
     });
 
