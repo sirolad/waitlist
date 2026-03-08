@@ -2,7 +2,7 @@
 import { WaitlistForm } from '@/components/waitlist-form';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { motion } from 'framer-motion';
-import { Languages, Sparkles, Users } from 'lucide-react';
+import { ArrowDown, Languages, Sparkles, Users } from 'lucide-react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { Footer } from '@/components/footer';
@@ -27,7 +27,10 @@ const DictPreview = dynamic(
 export default function Home() {
   return (
     <main className='min-h-screen bg-background text-foreground'>
-      <section id='waitlist' className='mx-auto max-w-6xl px-6 py-16 md:py-24'>
+
+      {/* ── 1. HERO ─────────────────────────────────────────── */}
+      <section className='mx-auto max-w-6xl px-6 py-8 md:py-12'>
+        {/* Logo bar */}
         <div className='flex items-center justify-between gap-4'>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -53,35 +56,33 @@ export default function Home() {
           </motion.div>
           <ThemeToggle />
         </div>
-        <div className='mt-4 grid gap-12 md:grid-cols-2 md:gap-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
+
+        <div className='mt-6 md:mt-4 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16'>
+          {/* Left: text content */}
+          <div>
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className='font-display text-4xl font-semibold leading-tight md:text-6xl'
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className='font-display text-4xl font-semibold leading-tight md:text-5xl xl:text-6xl'
             >
               Keep mother tongues alive, one word at a time.
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.22 }}
+              transition={{ duration: 0.55, delay: 0.2 }}
               className='mt-5 max-w-xl text-base leading-7 text-muted-foreground md:text-lg'
             >
-              Awalingo helps communities preserve and grow low-resource
-              languages through collaborative dictionaries, voting, and guided
-              learning.
+              Awalingo helps communities preserve and grow low-resource languages
+              through collaborative dictionaries, voting, and peer-reviewed curation.
             </motion.p>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.3 }}
-              className='mt-8 grid max-w-xl gap-4 sm:grid-cols-3'
+              transition={{ duration: 0.55, delay: 0.28 }}
+              className='mt-8 grid gap-4 sm:grid-cols-3'
             >
               <ValueCard
                 icon={<Languages className='h-5 w-5' />}
@@ -90,36 +91,47 @@ export default function Home() {
               />
               <ValueCard
                 icon={<Users className='h-5 w-5' />}
-                title='Waitlist'
-                description='Early access for contributors and partners.'
+                title='Suggest'
+                description='Your power to Suggest words and leave a Legacy.'
               />
               <ValueCard
                 icon={<Sparkles className='h-5 w-5' />}
-                title='Launch'
-                description='Product updates and onboarding priority.'
+                title='Vote'
+                description='Vote for it and help it become a permanent part of the dictionary.'
               />
             </motion.div>
-          </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.38 }}
+              className='mt-10'
+            >
+              <a
+                href='#waitlist'
+                className='inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90'
+              >
+                Reserve your spot
+                <ArrowDown className='h-4 w-4' />
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right: phone preview — desktop only */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className='rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-sm'
+            transition={{ duration: 0.75, delay: 0.45 }}
+            className='hidden lg:flex justify-center'
           >
-            <h2 className='font-display text-2xl font-semibold'>
-              Join the waitlist
-            </h2>
-            <p className='mt-2 text-sm text-muted-foreground'>
-              Be first to access Awalingo and help shape the launch.
-            </p>
-            <div className='mt-6'>
-              <WaitlistForm />
+            <div className='relative overflow-hidden w-[360px] h-[650px] xl:w-[420px] xl:h-[760px]'>
+              <AppPreview />
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* App preview section */}
+      {/* ── 2. PRODUCT PREVIEW ──────────────────────────────── */}
       <section id='preview' className='mx-auto max-w-6xl px-6 pb-24'>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -134,11 +146,12 @@ export default function Home() {
             See Awalingo in action
           </h2>
           <p className='mt-3 text-base text-muted-foreground max-w-lg mx-auto'>
-            Explore the dictionary and contribute words that preserve your community&apos;s language.
+            Explore the dictionary and contribute words that preserve your
+            community&apos;s language.
           </p>
         </motion.div>
 
-        {/* Mobile / tablet: single alternating phone */}
+        {/* Mobile / tablet */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
@@ -150,14 +163,13 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Desktop: two phones side by side */}
+        {/* Desktop */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.55 }}
           className='hidden lg:flex items-start justify-center gap-4 xl:gap-6'
         >
-          {/* Home phone */}
           <div className='flex flex-col items-center gap-1.5'>
             <div className='text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
               Home Dashboard
@@ -166,8 +178,6 @@ export default function Home() {
               <HomePreview />
             </div>
           </div>
-
-          {/* Dictionary phone */}
           <div className='flex flex-col items-center gap-1.5'>
             <div className='text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
               AwaDiko Dictionary
@@ -178,7 +188,35 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* ── 3. ROLES ────────────────────────────────────────── */}
       <RolesSection />
+
+      {/* ── 4. WAITLIST FORM ────────────────────────────────── */}
+      <section id='waitlist' className='mx-auto max-w-6xl px-6 pb-28'>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className='mx-auto max-w-xl'
+        >
+          <div className='mb-8 text-center'>
+            <p className='text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3'>
+              Join the waitlist
+            </p>
+            <h2 className='font-display text-3xl font-semibold md:text-4xl'>
+              Ready to make a difference?
+            </h2>
+            <p className='mt-3 text-base text-muted-foreground'>
+              Be first to access Awalingo and help shape the launch.
+            </p>
+          </div>
+          <div className='rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-sm'>
+            <WaitlistForm />
+          </div>
+        </motion.div>
+      </section>
+
       <Footer />
     </main>
   );

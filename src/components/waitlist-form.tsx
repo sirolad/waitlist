@@ -1,19 +1,79 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { allCountries } from 'country-telephone-data';
 
 type WaitlistResult = {
   ok: boolean;
   message: string;
 };
 
+// Converts an ISO2 country code to its emoji flag (e.g. "ng" → 🇳🇬)
+function isoToFlag(iso2: string) {
+  return [...iso2.toUpperCase()].map(c => String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
+}
+
+// Build a deduplicated list of { label, value } for the dropdown.
+const COUNTRY_OPTIONS = allCountries
+  .filter(c => c.dialCode)
+  .map(c => ({
+    value: `+${c.dialCode}`,
+    label: `${isoToFlag(c.iso2)} +${c.dialCode} ${c.name.replace(/\s*\(.*?\)\s*/g, '').trim()}`,
+    iso2: c.iso2,
+  }));
+
+const DEFAULT = COUNTRY_OPTIONS.find(c => c.iso2 === 'ng') ?? COUNTRY_OPTIONS[0];
+
+// Progress bar config — adjust the goal to match your launch target
+const WAITLIST_GOAL = 500;
+
+function WaitlistProgress({ count, goal }: { count: number; goal: number }) {
+  const pct = Math.min((count / goal) * 100, 100);
+
+  return (
+    <div className='mb-6 rounded-2xl border border-border bg-muted/30 px-5 py-4'>
+      <div className='flex items-center justify-between mb-2'>
+        <p className='text-sm font-semibold'>
+          <span className='text-primary'>{count.toLocaleString()}</span>
+          <span className='text-muted-foreground'> / {goal.toLocaleString()} early spots filled</span>
+        </p>
+        <span className='text-xs font-semibold text-primary'>{Math.round(pct)}%</span>
+      </div>
+      {/* Track */}
+      <div className='h-2 w-full overflow-hidden rounded-full bg-border'>
+        {/* Fill */}
+        <div
+          className='h-full rounded-full bg-primary transition-all duration-700 ease-out'
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <p className='mt-2 text-xs text-muted-foreground'>
+        {goal - count > 0
+          ? `${(goal - count).toLocaleString()} spots remaining — secure yours today.`
+          : 'All early spots are filled! Join the general waitlist.'}
+      </p>
+    </div>
+  );
+}
+
 export function WaitlistForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [note, setNote] = useState('');
+  const [countryCode, setCountryCode] = useState(DEFAULT.value);
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<WaitlistResult | null>(null);
+  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
+
+  // Fetch count on mount
+  useEffect(() => {
+    fetch('/api/waitlist/count')
+      .then(r => r.json())
+      .then((data: { count: number }) => setWaitlistCount(data.count))
+      .catch(() => setWaitlistCount(null));
+  }, []);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,6 +89,8 @@ export function WaitlistForm() {
           email,
           role,
           note,
+          phone: phone.trim() || undefined,
+          countryCode: phone.trim() ? countryCode : undefined,
           source: 'landing',
           honeypot: '',
         }),
@@ -40,6 +102,10 @@ export function WaitlistForm() {
         setEmail('');
         setRole('');
         setNote('');
+        setPhone('');
+        setCountryCode(DEFAULT.value);
+        // Bump the count optimistically after a successful signup
+        setWaitlistCount(prev => (prev !== null && payload.ok ? prev + 1 : prev));
       }
     } catch {
       setResult({
@@ -51,6 +117,9 @@ export function WaitlistForm() {
     }
   }
 
+  const inputClass =
+    'w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary';
+
   return (
     <form onSubmit={onSubmit} className='space-y-4'>
       <input
@@ -61,15 +130,21 @@ export function WaitlistForm() {
         className='hidden'
         aria-hidden='true'
       />
+
+      {/* Progress bar — shown once count is loaded */}
+      {waitlistCount !== null && (
+        <WaitlistProgress count={waitlistCount} goal={WAITLIST_GOAL} />
+      )}
+
       <div>
         <label htmlFor='name' className='mb-1 block text-sm font-medium'>
-          Name <span className='text-muted-foreground'>(optional)</span>
+          Name
         </label>
         <input
           id='name'
           value={name}
           onChange={event => setName(event.target.value)}
-          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
+          className={inputClass}
           placeholder='Adaeze Okafor'
         />
       </div>
@@ -83,10 +158,43 @@ export function WaitlistForm() {
           required
           value={email}
           onChange={event => setEmail(event.target.value)}
-          className='w-full rounded-xl border border-border bg-input-bg text-foreground px-4 py-2.5 text-sm placeholder:text-placeholder outline-none ring-0 focus:border-primary'
+          className={inputClass}
           placeholder='you@example.com'
         />
       </div>
+
+      {/* Phone number with country code */}
+      <div>
+        <label htmlFor='phone' className='mb-1 block text-sm font-medium'>
+          Phone number{' '}
+          <span className='text-muted-foreground'>(optional)</span>
+        </label>
+        <div className='flex gap-2'>
+          <select
+            id='country-code'
+            value={countryCode}
+            onChange={event => setCountryCode(event.target.value)}
+            aria-label='Country dial code'
+            className='shrink-0 w-36 rounded-xl border border-border bg-input-bg text-foreground px-3 py-2.5 text-sm outline-none ring-0 focus:border-primary'
+          >
+            {COUNTRY_OPTIONS.map(c => (
+              <option key={c.iso2} value={c.value} className='bg-input-bg text-foreground'>
+                {c.label}
+              </option>
+            ))}
+          </select>
+          <input
+            id='phone'
+            type='tel'
+            value={phone}
+            onChange={event => setPhone(event.target.value)}
+            className={inputClass}
+            placeholder='801 234 5678'
+            maxLength={15}
+          />
+        </div>
+      </div>
+
       <div>
         <label htmlFor='role' className='mb-1 block text-sm font-medium'>
           I am a...

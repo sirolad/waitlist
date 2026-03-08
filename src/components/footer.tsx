@@ -1,21 +1,39 @@
 'use client';
 
-import { Github, Twitter, Mail } from 'lucide-react';
+import { Twitter, Mail, Instagram, Linkedin, Heart } from 'lucide-react';
+
+function MediumIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='currentColor' className={className} aria-hidden='true'>
+      <path d='M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z' />
+    </svg>
+  );
+}
 
 const NAV = [
   { label: 'About', href: '#' },
   { label: 'Dictionary', href: '#preview' },
+  { label: 'FAQs', href: '/faq' },
   { label: 'Join waitlist', href: '#waitlist' },
   { label: 'Contact', href: 'mailto:hello@awalingo.com' },
 ];
 
 const SOCIAL = [
-  { label: 'Twitter / X', href: 'https://twitter.com/awalingo', icon: Twitter },
-  { label: 'GitHub', href: 'https://github.com/awalingo', icon: Github },
-  { label: 'Email', href: 'mailto:hello@awalingo.com', icon: Mail },
+  { label: 'Twitter / X', href: 'https://www.x.com/useawalingo', icon: Twitter },
+  { label: 'Instagram', href: 'https://instagram.com/useawalingo', icon: Instagram },
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/awalingo', icon: Linkedin },
+  { label: 'Medium', href: 'https://medium.com/@awalingo', icon: MediumIcon },
+  { label: 'Email', href: 'mailto: awalingoteam@gmail.com', icon: Mail },
 ];
 
-const LANGUAGES = ['Yoruba', 'Igbo', 'Hausa', 'Swahili', 'Amharic', 'Zulu'];
+const COMMUNITIES = [
+  { name: 'Yoruba' },
+  { name: 'Igbo' },
+  { name: 'Hausa' },
+  { name: 'Swahili', soon: true },
+  { name: 'Amharic', soon: true },
+  { name: 'Zulu', soon: true },
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -29,11 +47,11 @@ export function Footer() {
           <div className='lg:col-span-2'>
             <p className='font-display text-xl font-bold tracking-tight'>Awalingo</p>
             <p className='mt-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
-              Mothertongue Rescue
+              A Community-driven Dictionary for LRLs
             </p>
             <p className='mt-4 max-w-xs text-sm leading-6 text-muted-foreground'>
-              A collaborative platform for communities to preserve and grow low-resource
-              languages through curated dictionaries, voting, and guided learning.
+              At Awalingo, we aren’t just preserving indigenous languages — we are engineering inclusion and helping you co-curate the future of mothertongues. Join the mission.
+
             </p>
             {/* Social */}
             <div className='mt-6 flex items-center gap-3'>
@@ -74,12 +92,17 @@ export function Footer() {
           {/* Languages */}
           <div>
             <p className='mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
-              Languages
+              Communities
             </p>
             <ul className='space-y-3'>
-              {LANGUAGES.map(lang => (
-                <li key={lang}>
-                  <span className='text-sm text-muted-foreground'>{lang}</span>
+              {COMMUNITIES.map(({ name, soon }) => (
+                <li key={name} className='flex items-center gap-2'>
+                  <span className='text-sm text-muted-foreground'>{name}</span>
+                  {soon && (
+                    <span className='rounded-full bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400'>
+                      soon
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -92,8 +115,8 @@ export function Footer() {
           <p className='text-xs text-muted-foreground'>
             © {year} Awalingo. All rights reserved.
           </p>
-          <p className='text-xs text-muted-foreground'>
-            Built with care for every mother tongue.
+          <p className='flex items-center gap-1 text-xs text-muted-foreground'>
+            Built with <Heart className='h-3 w-3 fill-red-500 text-red-500' /> for every mother tongue.
           </p>
         </div>
       </div>
