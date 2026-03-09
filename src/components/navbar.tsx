@@ -38,7 +38,7 @@ export function Navbar() {
         </Link>
 
         {/* Nav links + theme toggle */}
-        <div className='flex items-center gap-1 sm:gap-2'>
+        <div className='flex shrink-0 items-center gap-0.5 sm:gap-1'>
           {NAV_LINKS.map(({ href, label }) => {
             const active = pathname === href;
             return (
@@ -46,7 +46,7 @@ export function Navbar() {
                 key={href}
                 href={href}
                 className={cn(
-                  'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
+                  'rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors sm:px-3',
                   active
                     ? 'bg-primary/10 text-primary'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground'
@@ -56,7 +56,7 @@ export function Navbar() {
               </Link>
             );
           })}
-          <div className='ml-2'>
+          <div className='ml-1'>
             <ThemeToggle />
           </div>
         </div>

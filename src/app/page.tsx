@@ -29,8 +29,8 @@ export default function Home() {
     <main className='min-h-screen bg-background text-foreground'>
 
       {/* ── 1. HERO ─────────────────────────────────────────── */}
-      <section className='mx-auto max-w-6xl px-6 py-0'>
-        <Navbar />
+      <Navbar />
+      <section className='mx-auto max-w-6xl px-6'>
 
         <div className='mt-6 md:mt-4 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16'>
           {/* Left: text content */}
