@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     'Awalingo helps communities preserve and grow low-resource languages through collaborative dictionaries, voting, and peer-reviewed curation. Join the early access waitlist.',
   metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: 'Awalingo — Keep mother tongues alive, one word at a time.',
+    title: 'Join the Awalingo Waitlist— Keep mother tongues alive, one word at a time.',
     description:
       'Awalingo helps communities preserve and grow low-resource languages through collaborative dictionaries and peer-reviewed curation. Join the waitlist today.',
     url: SITE_URL,
@@ -84,6 +84,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-image.png',
+        secureUrl: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Awalingo — Keep mother tongues alive, one word at a time.',
