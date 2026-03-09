@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 
 const FAQS = [
@@ -118,29 +116,7 @@ export default function FAQPage() {
     <main className='min-h-screen bg-background text-foreground'>
 
       {/* ── NAV ──────────────────────────────────────────────── */}
-      <header className='mx-auto max-w-6xl px-6 py-8'>
-        <div className='flex items-center justify-between gap-4'>
-          <Link href='/'>
-            <Image
-              src='/branding/logo-wordmark-light.png'
-              alt='Awalingo'
-              width={500}
-              height={156}
-              className='h-12 w-auto object-contain dark:hidden'
-              priority
-            />
-            <Image
-              src='/branding/logo-wordmark-dark.png'
-              alt='Awalingo'
-              width={500}
-              height={156}
-              className='hidden h-12 w-auto object-contain dark:block'
-              priority
-            />
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+      <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className='mx-auto max-w-3xl px-6 pb-16 pt-6 text-center'>
