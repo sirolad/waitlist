@@ -1,6 +1,6 @@
 'use client';
 import { WaitlistForm } from '@/components/waitlist-form';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { Navbar } from '@/components/navbar';
 import { motion } from 'framer-motion';
 import { ArrowDown, Languages, Sparkles, Users } from 'lucide-react';
 import Image from 'next/image';
@@ -29,33 +29,8 @@ export default function Home() {
     <main className='min-h-screen bg-background text-foreground'>
 
       {/* ── 1. HERO ─────────────────────────────────────────── */}
-      <section className='mx-auto max-w-6xl px-6 py-8 md:py-12'>
-        {/* Logo bar */}
-        <div className='flex items-center justify-between gap-4'>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
-          >
-            <Image
-              src='/branding/logo-wordmark-light.png'
-              alt='Awalingo'
-              width={500}
-              height={156}
-              className='h-16 w-auto object-contain dark:hidden md:h-20'
-              priority
-            />
-            <Image
-              src='/branding/logo-wordmark-dark.png'
-              alt='Awalingo'
-              width={500}
-              height={156}
-              className='hidden h-16 w-auto object-contain dark:block md:h-20'
-              priority
-            />
-          </motion.div>
-          <ThemeToggle />
-        </div>
+      <section className='mx-auto max-w-6xl px-6 py-0'>
+        <Navbar />
 
         <div className='mt-6 md:mt-4 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16'>
           {/* Left: text content */}
