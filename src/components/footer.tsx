@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Twitter, Mail, Instagram, Linkedin, Heart } from 'lucide-react';
 
 function MediumIcon({ className }: { className?: string }) {
@@ -45,8 +46,21 @@ export function Footer() {
 
           {/* Brand */}
           <div className='lg:col-span-2'>
-            <p className='font-display text-xl font-bold tracking-tight'>Awalingo</p>
-            <p className='mt-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
+            <Image
+              src='/branding/logo-wordmark-light.png'
+              alt='Awalingo'
+              width={600}
+              height={256}
+              className='h-18 w-auto object-contain dark:hidden'
+            />
+            <Image
+              src='/branding/logo-wordmark-dark.png'
+              alt='Awalingo'
+              width={600}
+              height={256}
+              className='hidden h-18 w-auto object-contain dark:block'
+            />
+            <p className='mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
               A Community-driven Dictionary for LRLs
             </p>
             <p className='mt-4 max-w-xs text-sm leading-6 text-muted-foreground'>
