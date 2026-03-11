@@ -114,7 +114,7 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className='text-center mb-12'
         >
-          <p className='text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3'>
+          <p className='text-sm font-semibold uppercase tracking-widther text-muted-foreground mb-3'>
             Product preview
           </p>
           <h2 className='font-display text-3xl font-semibold md:text-4xl'>
