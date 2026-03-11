@@ -233,7 +233,7 @@ export function WaitlistForm() {
 
       <div>
         <label htmlFor='motherTongue' className='mb-1 block text-sm font-medium'>
-          Mother tongue <span className='text-muted-foreground'>(optional)</span>
+          Mother tongue
         </label>
         <Select value={motherTongue} onValueChange={(val) => setMotherTongue(val ?? '')}>
           <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
