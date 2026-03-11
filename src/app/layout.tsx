@@ -85,8 +85,8 @@ export const metadata: Metadata = {
       {
         url: '/og-image.png',
         secureUrl: '/og-image.png',
-        width: 1200,
-        height: 630,
+        width: 1024,
+        height: 727,
         alt: 'Awalingo — Keep mother tongues alive, one word at a time.',
       },
     ],
