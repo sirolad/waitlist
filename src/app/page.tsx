@@ -32,9 +32,9 @@ export default function Home() {
       <Navbar />
       <section className='mx-auto max-w-6xl px-6'>
 
-        <div className='mt-6 md:mt-4 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16'>
+        <div className='mt-2 md:mt-4 lg:flex lg:items-center lg:justify-between lg:gap-12'>
           {/* Left: text content */}
-          <div>
+          <div className='max-w-2xl'>
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -47,17 +47,32 @@ export default function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.2 }}
-              className='mt-5 max-w-xl text-base leading-7 text-muted-foreground md:text-lg'
+              className='mt-4 max-w-xl text-base leading-7 text-muted-foreground md:text-lg'
             >
               Awalingo helps communities preserve and grow low-resource languages
               through collaborative dictionaries, voting, and peer-reviewed curation.
             </motion.p>
 
             <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.38 }}
+              className='mt-8'
+            >
+              <a
+                href='#waitlist'
+                className='inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90'
+              >
+                Reserve your spot
+                <ArrowDown className='h-4 w-4' />
+              </a>
+            </motion.div>
+
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.28 }}
-              className='mt-8 grid gap-4 sm:grid-cols-3'
+              className='mt-10 grid gap-4 sm:grid-cols-3'
             >
               <ValueCard
                 icon={<Languages className='h-5 w-5' />}
@@ -75,21 +90,6 @@ export default function Home() {
                 description='Vote for it and help it become a permanent part of the dictionary.'
               />
             </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.38 }}
-              className='mt-10'
-            >
-              <a
-                href='#waitlist'
-                className='inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90'
-              >
-                Reserve your spot
-                <ArrowDown className='h-4 w-4' />
-              </a>
-            </motion.div>
           </div>
 
           {/* Right: phone preview — desktop only */}
@@ -97,7 +97,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.45 }}
-            className='hidden lg:flex justify-center'
+            className='hidden lg:flex justify-end'
           >
             <div className='relative overflow-hidden w-[360px] h-[650px] xl:w-[420px] xl:h-[760px]'>
               <AppPreview />
