@@ -18,7 +18,7 @@ export function Navbar() {
     <header className='sticky top-0 z-50 w-full border-b border-transparent bg-background/80 py-4 backdrop-blur-md transition-all md:py-5'>
       <nav className='mx-auto max-w-6xl px-6 flex items-center justify-between gap-6'>
         {/* Logo */}
-        <Link href='/' className='shrink-0'>
+        <Link href='/' className='shrink-0 -ml-7'>
           <Image
             src='/branding/logo-wordmark-light.png'
             alt='Awalingo'
@@ -61,7 +61,7 @@ export function Navbar() {
 
           <div className='flex items-center gap-2 sm:gap-3'>
             <a
-              href='#waitlist'
+              href='/#waitlist'
               className='hidden h-9 items-center justify-center rounded-full bg-primary px-5 text-xs font-semibold text-primary-foreground transition hover:opacity-90 md:flex'
             >
               Reserve your spot

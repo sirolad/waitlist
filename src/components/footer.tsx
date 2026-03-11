@@ -13,9 +13,9 @@ function MediumIcon({ className }: { className?: string }) {
 
 const NAV = [
   { label: 'About', href: '#' },
-  { label: 'Dictionary', href: '#preview' },
+  { label: 'Dictionary', href: '/#preview' },
   { label: 'FAQs', href: '/faq' },
-  { label: 'Join waitlist', href: '#waitlist' },
+  { label: 'Join waitlist', href: '/#waitlist' },
   { label: 'Contact', href: 'mailto:hello@awalingo.com' },
 ];
 
@@ -51,14 +51,14 @@ export function Footer() {
               alt='Awalingo'
               width={600}
               height={256}
-              className='h-18 w-auto object-contain dark:hidden'
+              className='h-18 w-auto object-contain dark:hidden -ml-7'
             />
             <Image
               src='/branding/logo-wordmark-dark.png'
               alt='Awalingo'
               width={600}
               height={256}
-              className='hidden h-18 w-auto object-contain dark:block'
+              className='hidden h-18 w-auto object-contain dark:block -ml-7'
             />
             <p className='mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground'>
               A Community-driven Dictionary for LRLs

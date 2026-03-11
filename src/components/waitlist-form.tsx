@@ -167,7 +167,7 @@ export function WaitlistForm() {
 
       <div>
         <label htmlFor='name' className='mb-1 block text-sm font-medium'>
-          Name
+          Name <span className='text-red-500'>*</span>
         </label>
         <input
           id='name'
@@ -175,11 +175,12 @@ export function WaitlistForm() {
           onChange={event => setName(event.target.value)}
           className={inputClass}
           placeholder='Ciroma Chukwuma Adekunle'
+          required
         />
       </div>
       <div>
         <label htmlFor='email' className='mb-1 block text-sm font-medium'>
-          Email
+          Email <span className='text-red-500'>*</span>
         </label>
         <input
           id='email'
