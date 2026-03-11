@@ -8,6 +8,7 @@ type WaitlistInsert = {
   note?: string;
   phone?: string;
   countryCode?: string;
+  motherTongue?: string;
   metadata?: Record<string, string | null>;
 };
 
@@ -30,6 +31,7 @@ export async function insertWaitlistEntry(input: WaitlistInsert) {
     note: input.note ?? null,
     phone: input.phone ?? null,
     country_code: input.countryCode ?? null,
+    mother_tongue: input.motherTongue ?? null,
     source: input.source ?? 'landing',
     metadata: input.metadata ?? null,
   });

@@ -8,6 +8,7 @@ export const waitlistSchema = z.object({
   note: z.string().trim().max(500).optional(),
   phone: z.string().trim().max(20).optional(),
   countryCode: z.string().trim().max(10).optional(),
+  motherTongue: z.string().trim().max(80).optional(),
   honeypot: z.string().optional(),
 });
 
