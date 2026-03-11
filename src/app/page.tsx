@@ -41,7 +41,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className='font-display text-4xl font-semibold leading-tight md:text-5xl xl:text-6xl'
             >
-              Keep mother tongues alive, <span className="text-gold">one word at a time</span>.
+              Keep mother tongues alive, <span className="text-gold whitespace-nowrap">one word at a time</span>.
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 18 }}
