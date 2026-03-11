@@ -167,7 +167,7 @@ export function WaitlistForm() {
 
       <div>
         <label htmlFor='name' className='mb-1 block text-sm font-medium'>
-          Name
+          Name <span className='text-red-500'>*</span>
         </label>
         <input
           id='name'
@@ -175,11 +175,12 @@ export function WaitlistForm() {
           onChange={event => setName(event.target.value)}
           className={inputClass}
           placeholder='Ciroma Chukwuma Adekunle'
+          required
         />
       </div>
       <div>
         <label htmlFor='email' className='mb-1 block text-sm font-medium'>
-          Email
+          Email <span className='text-red-500'>*</span>
         </label>
         <input
           id='email'
@@ -233,7 +234,7 @@ export function WaitlistForm() {
 
       <div>
         <label htmlFor='motherTongue' className='mb-1 block text-sm font-medium'>
-          Mother tongue
+          Mother tongue <span className='text-red-500'>*</span>
         </label>
         <Select value={motherTongue} onValueChange={(val) => setMotherTongue(val ?? '')}>
           <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
@@ -246,7 +247,7 @@ export function WaitlistForm() {
             alignItemWithTrigger={false}
             className='z-50 max-h-64'
           >
-            <SelectItem value='none'>Select language (optional)</SelectItem>
+            <SelectItem value='none'>Select language</SelectItem>
             {LRL_OPTIONS.map(lang => (
               <SelectItem key={lang} value={lang}>{lang}</SelectItem>
             ))}
