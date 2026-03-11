@@ -32,6 +32,24 @@ const COUNTRY_OPTIONS = allCountries
 
 const DEFAULT = COUNTRY_OPTIONS.find(c => c.iso2 === 'ng') ?? COUNTRY_OPTIONS[0];
 
+const LRL_OPTIONS = [
+  'Afar', 'Akan/Twi', 'Amharic', 'Annang', 'Aymara', 'Bambara', 'Baoulé', 'Basque', 'Bassa', 
+  'Bemba', 'Berber/Tamazight', 'Béti', 'Breton', 'Buryat', 'Chichewa', 'Chokwe', 'Cornish', 
+  'Dagbani', 'Dangme', 'Dinka', 'Diola', 'Duala', 'Ebira', 'Edo', 'Efik', 'Etsako', 'Ewe', 
+  'Ewondo', 'Fang', 'Fijian', 'Fon', 'Fula/Fulfulde', 'Ga', 'Gbaya', 'Gikuyu', 'Gogo', 
+  'Guaraní', 'Gurage', 'Hadiyya', 'Hausa', 'Hawaiian', 'Haya', 'Hehe', 'Ibibio', 'Idoma', 
+  'Igala', 'Igbo', 'Ijaw', 'Irish/Gaelic', 'Isoko', 'Itsekiri', 'Kamba', 'Kalenjin', 
+  'Kanuri', 'Khmer', 'Kinyarwanda', 'Kirundi', 'Kissi', 'Kongo', 'Krio', 'Kru', 'Lao', 
+  'Luganda', 'Luhya', 'Lunda', 'Luo', 'Luvale', 'Maasai', 'Makonde', 'Malagasy', 'Mandinka', 
+  'Mapuche', 'Mayan languages', 'Māori', 'Mende', 'Meru', 'Mongolian', 'Moore', 'Nahuatl', 
+  'Ndebele', 'Nuer', 'Nupe', 'Nyamwezi', 'Nyanja', 'Occitan', 'Oromo', 'Pulaar', 'Quechua', 
+  'Romani', 'Runyankore', 'Samoan', 'Sango', 'Sardinian', 'Scots Gaelic', 'Serer', 'Shona', 
+  'Sidama', 'Somali', 'Sotho', 'Sukuma', 'Susu', 'Swahili', 'Swati', 'Temne', 'Tibetan', 
+  'Tigrinya', 'Tiv', 'Tonga', 'Tongan', 'Tsonga', 'Tswana', 'Tuareg', 'Tumbuka', 'Uyghur', 
+  'Urhobo', 'Venda', 'Welsh', 'Wolaytta', 'Wolof', 'Xhosa', 'Yakut/Sakha', 'Yao', 'Yiddish', 
+  'Yoruba', 'Zande', 'Zarma', 'Zulu', 'Other'
+];
+
 // Progress bar config — adjust the goal to match your launch target
 const WAITLIST_GOAL = 500;
 
@@ -68,6 +86,7 @@ export function WaitlistForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
+  const [motherTongue, setMotherTongue] = useState('');
   const [note, setNote] = useState('');
   const [countryCode, setCountryCode] = useState(DEFAULT.value);
   const [phone, setPhone] = useState('');
@@ -96,6 +115,7 @@ export function WaitlistForm() {
           name,
           email,
           role: role === 'none' ? '' : role,
+          motherTongue: motherTongue === 'none' ? '' : motherTongue,
           note,
           phone: phone.trim() || undefined,
           countryCode: phone.trim() ? countryCode : undefined,
@@ -109,6 +129,7 @@ export function WaitlistForm() {
         setName('');
         setEmail('');
         setRole('');
+        setMotherTongue('');
         setNote('');
         setPhone('');
         setCountryCode(DEFAULT.value);
@@ -208,6 +229,29 @@ export function WaitlistForm() {
             maxLength={15}
           />
         </div>
+      </div>
+
+      <div>
+        <label htmlFor='motherTongue' className='mb-1 block text-sm font-medium'>
+          Mother tongue
+        </label>
+        <Select value={motherTongue} onValueChange={(val) => setMotherTongue(val ?? '')}>
+          <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
+            <SelectValue placeholder='Select language' />
+          </SelectTrigger>
+          <SelectContent 
+            side='bottom' 
+            align='start' 
+            sideOffset={4}
+            alignItemWithTrigger={false}
+            className='z-50 max-h-64'
+          >
+            <SelectItem value='none'>Select language (optional)</SelectItem>
+            {LRL_OPTIONS.map(lang => (
+              <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div>

@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
       note: parsed.data.note,
       phone: parsed.data.phone,
       countryCode: parsed.data.countryCode,
+      motherTongue: parsed.data.motherTongue,
       source: parsed.data.source,
       metadata: {
         userAgent: request.headers.get('user-agent'),
