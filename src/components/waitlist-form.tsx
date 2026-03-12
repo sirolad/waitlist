@@ -196,7 +196,7 @@ export function WaitlistForm() {
       {/* Phone number with country code */}
       <div>
         <label htmlFor='phone' className='mb-1 block text-sm font-medium'>
-          Phone number{' '}
+          Phone number <span className='text-red-500'>*</span>{' '}
           <span className='text-muted-foreground'>(WhatsApp Preferred)</span>
         </label>
         <div className='flex items-stretch gap-2 h-11'>
