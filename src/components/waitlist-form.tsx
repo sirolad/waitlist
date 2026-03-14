@@ -257,7 +257,7 @@ export function WaitlistForm() {
 
       <div>
         <label htmlFor='role' className='mb-1 block text-sm font-medium'>
-          I am a...
+          I will like to be a...
         </label>
         <Select value={role} onValueChange={(val) => setRole(val ?? '')}>
           <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
