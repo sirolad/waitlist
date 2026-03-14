@@ -118,7 +118,7 @@ export default function Home() {
             Product preview
           </p>
           <h2 className='font-display text-3xl font-semibold md:text-4xl'>
-            See Awalingo in action
+            Awalingo in action
           </h2>
           <p className='mt-3 text-base text-muted-foreground max-w-lg mx-auto'>
             Explore the dictionary and contribute words that preserve your
