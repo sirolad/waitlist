@@ -3,7 +3,6 @@ import { WaitlistForm } from '@/components/waitlist-form';
 import { Navbar } from '@/components/navbar';
 import { motion } from 'framer-motion';
 import { ArrowDown, Languages, Sparkles, Users } from 'lucide-react';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { Footer } from '@/components/footer';
 import { RolesSection } from '@/components/roles-section';
