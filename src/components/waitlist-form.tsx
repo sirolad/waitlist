@@ -47,7 +47,7 @@ const LRL_OPTIONS = [
   'Sidama', 'Somali', 'Sotho', 'Sukuma', 'Susu', 'Swahili', 'Swati', 'Temne', 'Tibetan', 
   'Tigrinya', 'Tiv', 'Tonga', 'Tongan', 'Tsonga', 'Tswana', 'Tuareg', 'Tumbuka', 'Uyghur', 
   'Urhobo', 'Venda', 'Welsh', 'Wolaytta', 'Wolof', 'Xhosa', 'Yakut/Sakha', 'Yao', 'Yiddish', 
-  'Yoruba', 'Zande', 'Zarma', 'Zulu', 'Other'
+  'Yoruba', 'Zande', 'Zarma', 'Zulu', 'Other - You May Specify Below'
 ];
 
 // Progress bar config — adjust the goal to match your launch target
@@ -235,6 +235,7 @@ export function WaitlistForm() {
       <div>
         <label htmlFor='motherTongue' className='mb-1 block text-sm font-medium'>
           Mother tongue <span className='text-red-500'>*</span>
+          <span className='text-muted-foreground'>(Select Other if your language is not listed)</span>
         </label>
         <Select value={motherTongue} onValueChange={(val) => setMotherTongue(val ?? '')}>
           <SelectTrigger className='w-full outline-none rounded-xl border border-border bg-input-bg !h-11 px-4 focus:ring-0 focus:ring-offset-0 focus:border-primary data-[state=open]:border-primary'>
