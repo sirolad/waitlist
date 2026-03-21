@@ -275,6 +275,7 @@ export function WaitlistForm() {
             <SelectItem value='contributor'>Contributor</SelectItem>
             <SelectItem value='juror'>Juror</SelectItem>
             <SelectItem value='partner'>Partner</SelectItem>
+            <SelectItem value='volunteer'>Volunteer</SelectItem>
           </SelectContent>
         </Select>
       </div>

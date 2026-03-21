@@ -1,12 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { waitlistSchema } from '@/lib/waitlist/schema';
-import { insertWaitlistEntry } from '@/lib/waitlist/service';
-import { Resend } from 'resend';
-import WaitlistWelcomeEmail from '@/components/emails/welcome-email';
+import { NextRequest, NextResponse } from "next/server";
+import { waitlistSchema } from "@/lib/waitlist/schema";
+import { insertWaitlistEntry } from "@/lib/waitlist/service";
+import { Resend } from "resend";
+import WaitlistWelcomeEmail from "@/components/emails/welcome-email";
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
-const rateLimitStore = new Map<string, { count: number; windowStart: number }>();
+const rateLimitStore = new Map<
+  string,
+  { count: number; windowStart: number }
+>();
 const WINDOW_MS = 60_000;
 const MAX_PER_WINDOW = 10;
 
@@ -27,13 +32,13 @@ function isRateLimited(ip: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  const ip = forwardedFor?.split(',')[0]?.trim() ?? 'unknown';
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const ip = forwardedFor?.split(",")[0]?.trim() ?? "unknown";
 
   if (isRateLimited(ip)) {
     return NextResponse.json(
-      { ok: false, message: 'Too many requests. Please try again soon.' },
-      { status: 429 }
+      { ok: false, message: "Too many requests. Please try again soon." },
+      { status: 429 },
     );
   }
 
@@ -42,15 +47,15 @@ export async function POST(request: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json(
-      { ok: false, message: 'Please provide valid details.' },
-      { status: 400 }
+      { ok: false, message: "Please provide valid details." },
+      { status: 400 },
     );
   }
 
   if (parsed.data.honeypot && parsed.data.honeypot.trim().length > 0) {
     return NextResponse.json(
-      { ok: true, message: 'Thanks! You are on the waitlist.' },
-      { status: 200 }
+      { ok: true, message: "Thanks! You are on the waitlist." },
+      { status: 200 },
     );
   }
 
@@ -65,37 +70,50 @@ export async function POST(request: NextRequest) {
       motherTongue: parsed.data.motherTongue,
       source: parsed.data.source,
       metadata: {
-        userAgent: request.headers.get('user-agent'),
-        referer: request.headers.get('referer'),
+        userAgent: request.headers.get("user-agent"),
+        referer: request.headers.get("referer"),
       },
     });
 
     if (!result.created) {
       return NextResponse.json(
-        { ok: true, message: 'You are already on the waitlist.' },
-        { status: 200 }
+        { ok: true, message: "You are already on the waitlist." },
+        { status: 200 },
       );
     }
 
     if (resend) {
       // Fire and forget the email so we don't slow down the response
-      resend.emails.send({
-        from: 'Awalingo <awalingoteam@gmail.com>', // MUST update to a verified domain on Resend
-        to: parsed.data.email!,
-        subject: 'Welcome to the Awalingo Waitlist 🎉',
-        react: WaitlistWelcomeEmail({ name: parsed.data.name || 'there' }),
-      }).catch(console.error);
+      resend.emails
+        .send({
+          from: "Awalingo <hello@awalingo.org>", // MUST update to a verified domain on Resend
+          to: parsed.data.email!,
+          subject: "Welcome to the Awalingo Waitlist 🎉",
+          react: WaitlistWelcomeEmail({ name: parsed.data.name || "there" }),
+        })
+        .then((response) => {
+          if (response.error) {
+            console.error("[resend] email sending error:", response.error);
+          } else {
+            console.log("[resend] email sent successfully:", response.data?.id);
+          }
+        })
+        .catch((err) => {
+          console.error("[resend] unexpected error:", err);
+        });
+    } else {
+      console.warn("[resend] skipped email: RESEND_API_KEY is missing");
     }
 
     return NextResponse.json(
-      { ok: true, message: 'Success! You are on the waitlist.' },
-      { status: 201 }
+      { ok: true, message: "Success! You are on the waitlist." },
+      { status: 201 },
     );
   } catch (err) {
-    console.error('[waitlist] insertion error:', err);
+    console.error("[waitlist] insertion error:", err);
     return NextResponse.json(
-      { ok: false, message: 'Submission failed. Please try again.' },
-      { status: 500 }
+      { ok: false, message: "Submission failed. Please try again." },
+      { status: 500 },
     );
   }
 }
