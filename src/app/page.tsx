@@ -2,7 +2,14 @@
 import { WaitlistForm } from '@/components/waitlist-form';
 import { Navbar } from '@/components/navbar';
 import { motion } from 'framer-motion';
-import { ArrowDown, Languages, Sparkles, Users } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowUpRight,
+  CalendarDays,
+  Languages,
+  Sparkles,
+  Users,
+} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Footer } from '@/components/footer';
 import { RolesSection } from '@/components/roles-section';
@@ -29,6 +36,45 @@ export default function Home() {
 
       {/* ── 1. HERO ─────────────────────────────────────────── */}
       <Navbar />
+      <section className='mx-auto max-w-6xl px-6 pt-6 md:pt-8'>
+        <motion.a
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.05 }}
+          href='https://bit.ly/AwalingoLaunch'
+          target='_blank'
+          rel='noreferrer'
+          className='group relative block overflow-hidden rounded-[2rem] border border-gold/30 bg-[linear-gradient(135deg,rgba(234,171,11,0.16),rgba(234,171,11,0.05)_38%,rgba(255,255,255,0.96)_100%)] p-5 shadow-[0_20px_60px_-35px_rgba(234,171,11,0.65)] transition-transform duration-300 hover:-translate-y-0.5 dark:bg-[linear-gradient(135deg,rgba(234,171,11,0.2),rgba(234,171,11,0.08)_40%,rgba(24,24,27,0.92)_100%)]'
+        >
+          <div className='pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gold/15 blur-3xl' />
+          <div className='pointer-events-none absolute bottom-0 left-0 h-24 w-24 rounded-full bg-gold/10 blur-2xl' />
+
+          <div className='relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6'>
+            <div className='max-w-2xl'>
+              <div className='inline-flex items-center gap-2 rounded-full border border-gold/25 bg-background/75 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-gold backdrop-blur-sm dark:bg-background/30'>
+                <CalendarDays className='h-3.5 w-3.5' />
+                Launching Event
+              </div>
+              <h2 className='mt-3 font-display text-2xl font-semibold leading-tight md:text-3xl'>
+                Join the Awalingo launch and celebrate the communities keeping
+                their languages alive.
+              </h2>
+              <p className='mt-2 max-w-xl text-sm leading-6 text-muted-foreground md:text-base'>
+                We&apos;re opening registration for our launch event. Save your
+                seat to get updates, hear the vision, and be part of the first
+                wave.
+              </p>
+            </div>
+
+            <div className='flex shrink-0 items-center'>
+              <span className='inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition group-hover:opacity-90'>
+                Sign up for the event
+                <ArrowUpRight className='h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5' />
+              </span>
+            </div>
+          </div>
+        </motion.a>
+      </section>
       <section className='mx-auto max-w-6xl px-6'>
 
         <div className='mt-2 md:mt-4 lg:flex lg:items-center lg:justify-between lg:gap-12'>
