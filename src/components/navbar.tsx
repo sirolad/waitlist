@@ -64,7 +64,7 @@ export function Navbar() {
               href='/#waitlist'
               className='hidden h-9 items-center justify-center rounded-full bg-primary px-5 text-xs font-semibold text-primary-foreground transition hover:opacity-90 md:flex'
             >
-              Reserve your spot
+              Join the waitlist
             </a>
             <ThemeToggle />
           </div>
