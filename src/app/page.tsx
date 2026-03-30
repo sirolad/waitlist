@@ -125,7 +125,7 @@ export default function Home() {
                 href='#waitlist'
                 className='inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90'
               >
-                Reserve your spot
+                Join the waitlist
                 <ArrowDown className='h-4 w-4' />
               </a>
             </motion.div>
