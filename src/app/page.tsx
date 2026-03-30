@@ -13,7 +13,7 @@ import {
 import dynamic from 'next/dynamic';
 import { Footer } from '@/components/footer';
 import { RolesSection } from '@/components/roles-section';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const AppPreview = dynamic(
   () => import('@/components/app-preview').then(m => m.AppPreview),
@@ -30,7 +30,19 @@ const DictPreview = dynamic(
   { ssr: false }
 );
 
+const LAUNCH_DATE = new Date('2026-04-12T00:00:00');
+
 export default function Home() {
+  const [countdown, setCountdown] = useState(() => getCountdownParts(LAUNCH_DATE));
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCountdown(getCountdownParts(LAUNCH_DATE));
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <main className='min-h-screen bg-background text-foreground'>
 
@@ -64,6 +76,12 @@ export default function Home() {
                 seat to get updates, hear the vision, and be part of the first
                 wave.
               </p>
+              <div className='mt-4 grid max-w-sm grid-cols-2 gap-2 sm:max-w-md sm:grid-cols-4'>
+                <CountdownCard label='Days' value={countdown.days} />
+                <CountdownCard label='Hours' value={countdown.hours} />
+                <CountdownCard label='Minutes' value={countdown.minutes} />
+                <CountdownCard label='Seconds' value={countdown.seconds} />
+              </div>
             </div>
 
             <div className='flex shrink-0 items-center'>
@@ -76,8 +94,7 @@ export default function Home() {
         </motion.a>
       </section>
       <section className='mx-auto max-w-6xl px-6'>
-
-        <div className='mt-2 md:mt-4 lg:flex lg:items-center lg:justify-between lg:gap-12'>
+        <div className='mt-6 md:mt-4 lg:flex lg:items-center lg:justify-between lg:gap-12'>
           {/* Left: text content */}
           <div className='max-w-2xl'>
             <motion.h1
@@ -264,4 +281,33 @@ function ValueCard({
       </p>
     </motion.div>
   );
+}
+
+function CountdownCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className='rounded-2xl border border-gold/20 bg-background/70 px-3 py-3 text-center backdrop-blur-sm dark:bg-background/25'>
+      <p className='font-display text-2xl font-semibold leading-none md:text-3xl'>
+        {value}
+      </p>
+      <p className='mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground'>
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function getCountdownParts(targetDate: Date) {
+  const diff = Math.max(targetDate.getTime() - Date.now(), 0);
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  return {
+    days: String(days).padStart(2, '0'),
+    hours: String(hours).padStart(2, '0'),
+    minutes: String(minutes).padStart(2, '0'),
+    seconds: String(seconds).padStart(2, '0'),
+  };
 }
